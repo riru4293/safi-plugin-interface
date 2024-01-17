@@ -25,61 +25,26 @@
  */
 package jp.mydns.projectk.safi.plugin;
 
-import jakarta.json.JsonObject;
+import java.util.List;
 
 /**
- * The result of one imported (or attempted if unsuccessful) content. This includes content values and result status.
- *
- * <p>
- * Implementation requirements.
- * <ul>
- * <li>This class is immutable and thread-safe.</li>
- * </ul>
+ * Export the export-content. Provides processing specific to the export destination in the process of exporting
+ * contents to the outside.
  *
  * @author riru
  * @version 1.0.0
  * @since 1.0.0
  */
-public interface ImportResult {
+public interface ExporterPlugin extends SafiPlugin {
 
     /**
-     * Returns a {@code true} if import was successful.
+     * Execute exporting.
      *
-     * @return {@code true} if import was successful, otherwise {@code false}.
+     * @param contents exportation contents.
+     * @return processing result message for the entire export processing
+     * @throws PluginRuntimeException if processing cannot be continued
+     * @throws InterruptedException if interrupted
      * @since 1.0.0
      */
-    boolean isSuccess();
-
-    /**
-     * Get result kind.
-     *
-     * @return result kind. It value is {@code REGISTER}, {@code DELETION}, or {@code FAILURE}.
-     * @since 1.0.0
-     */
-    String getKindName();
-
-    /**
-     * Get format name of content value.
-     *
-     * @return format name of content value
-     * @since 1.0.0
-     */
-    String getFormatName();
-
-    /**
-     * Get content value.
-     *
-     * @return content value
-     * @since 1.0.0
-     */
-    JsonObject getValue();
-
-    /**
-     * Get result message for this content.
-     *
-     * @return result message for this content
-     * @since 1.0.0
-     */
-    String getMessage();
-
+    List<String> execute(ExportSourceContainer contents) throws InterruptedException;
 }
