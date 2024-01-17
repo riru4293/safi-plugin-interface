@@ -26,6 +26,7 @@
 package jp.mydns.projectk.safi.plugin;
 
 import java.util.List;
+import jp.mydns.projectk.plugin.PluginExecutionException;
 
 /**
  * Export the export-content. Provides processing specific to the export destination in the process of exporting
@@ -40,11 +41,52 @@ public interface ExporterPlugin extends SafiPlugin {
     /**
      * Execute exporting.
      *
-     * @param contents exportation contents.
+     * @param sources exportation contents source.
      * @return processing result message for the entire export processing
-     * @throws PluginRuntimeException if processing cannot be continued
+     * @throws PluginExecutionException if processing cannot be continued
      * @throws InterruptedException if interrupted
      * @since 1.0.0
      */
-    List<String> execute(ExportSourceContainer contents) throws InterruptedException;
+    List<String> doExport(ExportSourceContainer sources) throws InterruptedException;
+
+    /**
+     * Abstract implements of the {@code ExporterPlugin}.
+     *
+     * @author riru
+     * @version 1.0.0
+     * @since 1.0.0
+     */
+    abstract class AbstractExporterPlugin implements ExporterPlugin {
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws PluginExecutionException if processing cannot be continued
+         * @since 1.0.0
+         */
+        @Override
+        public final List<String> doExport(ExportSourceContainer sources) throws InterruptedException {
+            try {
+                return doExportProcessing(sources);
+            } catch (PluginExecutionException | InterruptedException ex) {
+                throw ex;
+            } catch (Throwable ignore) {
+                // Note:
+                // Cause exception does not wrap because it may be contaminated by an exception class
+                // loaded with another class loader.
+                throw new PluginUnknownException();
+            }
+        }
+
+        /**
+         * Execute exporting.
+         *
+         * @param sources exportation contents source.
+         * @return processing result message for the entire export processing
+         * @throws PluginExecutionException if processing cannot be continued
+         * @throws InterruptedException if interrupted
+         * @since 1.0.0
+         */
+        abstract List<String> doExportProcessing(ExportSourceContainer sources) throws InterruptedException;
+    }
 }
