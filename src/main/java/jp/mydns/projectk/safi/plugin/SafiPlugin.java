@@ -25,33 +25,14 @@
  */
 package jp.mydns.projectk.safi.plugin;
 
-import jakarta.json.JsonObject;
 import jp.mydns.projectk.plugin.Plugin;
 
 /**
- * Plug-in interface for SAFI.
+ * General plug-in interface for SAFI.
  *
  * @author riru
- * @version 1.0.0
+ * @version 2.0.0
  * @since 1.0.0
  */
 public interface SafiPlugin extends Plugin {
-
-    /**
-     * Get plug-in properties. Used to convey environment-dependent values ​​of the plug-in caller to the plug-in. Must
-     * not be thrown exception and never return {@code null}.
-     *
-     * @return plug-in properties. It never {@code null}.
-     * @since 1.0.0
-     */
-    JsonObject getPluginProperties();
-
-    /**
-     * Set plug-in properties. This method is used by the plug-in loader.
-     *
-     * @param props properties
-     * @throws NullPointerException if {@code props} is {@code null}
-     * @since 1.0.0
-     */
-    void setPluginProperties(JsonObject props);
 }

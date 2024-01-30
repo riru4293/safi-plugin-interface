@@ -25,18 +25,17 @@
  */
 package jp.mydns.projectk.safi.plugin;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import jp.mydns.projectk.plugin.PluginExecutionException;
+import jp.mydns.projectk.safi.plugin.BatchPlugin.AbstractBatchPlugin;
 
 /**
  * Import the outer-content. Provides processing specific to the import destination in the process of importing contents
  * from the outside.
  *
  * @author riru
- * @version 1.0.0
+ * @version 2.0.0
  * @since 1.0.0
  */
 public interface ImporterPlugin extends SafiPlugin {
@@ -45,43 +44,41 @@ public interface ImporterPlugin extends SafiPlugin {
      * Fetch content values from a data source.
      *
      * @param entrance carry-in entrance of the fetched content. One carry-in represents for one content.
-     * @return processing result message for the entire import processing
      * @throws PluginExecutionException if processing cannot be continued
      * @throws InterruptedException if interrupted
      * @since 1.0.0
      */
-    List<String> fetch(Consumer<Map<String, String>> entrance) throws InterruptedException;
+    void fetch(Consumer<Map<String, String>> entrance) throws InterruptedException;
 
     /**
      * Perform post-import processing. Use the import results to respond to the data source.
      *
      * @param records content import record values
-     * @return processing result message for the entire import processing
      * @throws PluginExecutionException if processing cannot be continued
      * @throws InterruptedException if interrupted
-     * @since 1.0.0
+     * @since 2.0.0
      */
-    List<String> doPost(ImportResultContainer records) throws InterruptedException;
+    void doPost(ImportResultContainer records) throws InterruptedException;
 
     /**
      * Abstract implements of the {@code ImporterPlugin}.
      *
      * @author riru
-     * @version 1.0.0
+     * @version 2.0.0
      * @since 1.0.0
      */
-    abstract class AbstractImporterPlugin implements ImporterPlugin {
+    abstract class AbstractImporterPlugin extends AbstractBatchPlugin implements ImporterPlugin {
 
         /**
          * {@inheritDoc}
          *
          * @throws PluginExecutionException if processing cannot be continued
-         * @since 1.0.0
+         * @since 2.0.0
          */
         @Override
-        public final List<String> fetch(Consumer<Map<String, String>> entrance) throws InterruptedException {
+        public final void fetch(Consumer<Map<String, String>> entrance) throws InterruptedException {
             try {
-                return fetchContents(entrance);
+                fetchContents(entrance);
             } catch (PluginExecutionException | InterruptedException ex) {
                 throw ex;
             } catch (Throwable ignore) {
@@ -96,12 +93,12 @@ public interface ImporterPlugin extends SafiPlugin {
          * {@inheritDoc}
          *
          * @throws PluginExecutionException if processing cannot be continuedExecute post-processing
-         * @since 1.0.0
+         * @since 2.0.0
          */
         @Override
-        public final List<String> doPost(ImportResultContainer records) throws InterruptedException {
+        public final void doPost(ImportResultContainer records) throws InterruptedException {
             try {
-                return doPostProcessing(records);
+                doPostProcessing(records);
             } catch (PluginExecutionException | InterruptedException ex) {
                 throw ex;
             } catch (Throwable ignore) {
@@ -116,12 +113,11 @@ public interface ImporterPlugin extends SafiPlugin {
          * Fetch content values from a data source.
          *
          * @param entrance carry-in entrance of the fetched content. One carry-in represents for one content.
-         * @return processing result message for the entire import processing
          * @throws PluginExecutionException if processing cannot be continued
          * @throws InterruptedException if interrupted
-         * @since 1.0.0
+         * @since 2.0.0
          */
-        abstract List<String> fetchContents(Consumer<Map<String, String>> entrance) throws InterruptedException;
+        abstract void fetchContents(Consumer<Map<String, String>> entrance) throws InterruptedException;
 
         /**
          * Perform post-import processing. Use the import results to respond to the data source.
@@ -133,13 +129,12 @@ public interface ImporterPlugin extends SafiPlugin {
          * </ul>
          *
          * @param records content import record values
-         * @return processing result message for the entire import processing
          * @throws PluginExecutionException if processing cannot be continued
          * @throws InterruptedException if interrupted
          * @since 1.0.0
          */
-        List<String> doPostProcessing(ImportResultContainer records) throws InterruptedException {
-            return Collections.emptyList();
+        void doPostProcessing(ImportResultContainer records) throws InterruptedException {
+            // Do nothing.
         }
     }
 }
