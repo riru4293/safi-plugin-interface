@@ -35,4 +35,5 @@ import jp.mydns.projectk.plugin.Plugin;
  * @since 1.0.0
  */
 public interface SafiPlugin extends Plugin {
+
 }

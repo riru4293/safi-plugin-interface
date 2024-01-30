@@ -131,7 +131,7 @@ public interface ImporterPlugin extends SafiPlugin {
          * @param records content import record values
          * @throws PluginExecutionException if processing cannot be continued
          * @throws InterruptedException if interrupted
-         * @since 1.0.0
+         * @since 2.0.0
          */
         void doPostProcessing(ImportResultContainer records) throws InterruptedException {
             // Do nothing.
