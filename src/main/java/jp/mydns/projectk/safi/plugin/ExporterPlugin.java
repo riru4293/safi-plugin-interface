@@ -25,15 +25,15 @@
  */
 package jp.mydns.projectk.safi.plugin;
 
-import java.util.List;
 import jp.mydns.projectk.plugin.PluginExecutionException;
+import jp.mydns.projectk.safi.plugin.BatchPlugin.AbstractBatchPlugin;
 
 /**
  * Export the export-content. Provides processing specific to the export destination in the process of exporting
  * contents to the outside.
  *
  * @author riru
- * @version 1.0.0
+ * @version 2.0.0
  * @since 1.0.0
  */
 public interface ExporterPlugin extends SafiPlugin {
@@ -42,32 +42,31 @@ public interface ExporterPlugin extends SafiPlugin {
      * Execute exporting.
      *
      * @param sources exportation contents source.
-     * @return processing result message for the entire export processing
      * @throws PluginExecutionException if processing cannot be continued
      * @throws InterruptedException if interrupted
-     * @since 1.0.0
+     * @since 2.0.0
      */
-    List<String> doExport(ExportSourceContainer sources) throws InterruptedException;
+    void doExport(ExportSourceContainer sources) throws InterruptedException;
 
     /**
      * Abstract implements of the {@code ExporterPlugin}.
      *
      * @author riru
-     * @version 1.0.0
+     * @version 2.0.0
      * @since 1.0.0
      */
-    abstract class AbstractExporterPlugin implements ExporterPlugin {
+    abstract class AbstractExporterPlugin extends AbstractBatchPlugin implements ExporterPlugin {
 
         /**
          * {@inheritDoc}
          *
          * @throws PluginExecutionException if processing cannot be continued
-         * @since 1.0.0
+         * @since 2.0.0
          */
         @Override
-        public final List<String> doExport(ExportSourceContainer sources) throws InterruptedException {
+        public final void doExport(ExportSourceContainer sources) throws InterruptedException {
             try {
-                return doExportProcessing(sources);
+                doExportProcessing(sources);
             } catch (PluginExecutionException | InterruptedException ex) {
                 throw ex;
             } catch (Throwable ignore) {
@@ -82,11 +81,10 @@ public interface ExporterPlugin extends SafiPlugin {
          * Execute exporting.
          *
          * @param sources exportation contents source.
-         * @return processing result message for the entire export processing
          * @throws PluginExecutionException if processing cannot be continued
          * @throws InterruptedException if interrupted
-         * @since 1.0.0
+         * @since 2.0.0
          */
-        abstract List<String> doExportProcessing(ExportSourceContainer sources) throws InterruptedException;
+        abstract void doExportProcessing(ExportSourceContainer sources) throws InterruptedException;
     }
 }
