@@ -85,6 +85,6 @@ public interface ExporterPlugin extends BatchPlugin {
          * @throws InterruptedException if interrupted
          * @since 2.0.0
          */
-        abstract void doExportProcessing(ExportSourceContainer sources) throws InterruptedException;
+        public abstract void doExportProcessing(ExportSourceContainer sources) throws InterruptedException;
     }
 }

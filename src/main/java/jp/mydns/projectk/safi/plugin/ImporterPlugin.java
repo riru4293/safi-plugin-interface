@@ -117,7 +117,7 @@ public interface ImporterPlugin extends BatchPlugin {
          * @throws InterruptedException if interrupted
          * @since 2.0.0
          */
-        abstract void fetchContents(Consumer<Map<String, String>> entrance) throws InterruptedException;
+        public abstract void fetchContents(Consumer<Map<String, String>> entrance) throws InterruptedException;
 
         /**
          * Perform post-import processing. Use the import results to respond to the data source.
@@ -133,7 +133,7 @@ public interface ImporterPlugin extends BatchPlugin {
          * @throws InterruptedException if interrupted
          * @since 2.0.0
          */
-        void doPostProcessing(ImportResultContainer records) throws InterruptedException {
+        public void doPostProcessing(ImportResultContainer records) throws InterruptedException {
             // Do nothing.
         }
     }
