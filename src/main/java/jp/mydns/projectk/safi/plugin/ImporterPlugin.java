@@ -38,7 +38,7 @@ import jp.mydns.projectk.safi.plugin.BatchPlugin.AbstractBatchPlugin;
  * @version 2.0.0
  * @since 1.0.0
  */
-public interface ImporterPlugin extends SafiPlugin {
+public interface ImporterPlugin extends BatchPlugin {
 
     /**
      * Fetch content values from a data source.
@@ -81,7 +81,7 @@ public interface ImporterPlugin extends SafiPlugin {
                 fetchContents(entrance);
             } catch (PluginExecutionException | InterruptedException ex) {
                 throw ex;
-            } catch (Throwable ignore) {
+            } catch (RuntimeException ignore) {
                 // Note:
                 // Cause exception does not wrap because it may be contaminated by an exception class
                 // loaded with another class loader.
@@ -101,7 +101,7 @@ public interface ImporterPlugin extends SafiPlugin {
                 doPostProcessing(records);
             } catch (PluginExecutionException | InterruptedException ex) {
                 throw ex;
-            } catch (Throwable ignore) {
+            } catch (RuntimeException ignore) {
                 // Note:
                 // Cause exception does not wrap because it may be contaminated by an exception class
                 // loaded with another class loader.

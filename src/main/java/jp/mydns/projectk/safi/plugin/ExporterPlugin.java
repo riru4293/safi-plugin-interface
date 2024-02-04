@@ -36,7 +36,7 @@ import jp.mydns.projectk.safi.plugin.BatchPlugin.AbstractBatchPlugin;
  * @version 2.0.0
  * @since 1.0.0
  */
-public interface ExporterPlugin extends SafiPlugin {
+public interface ExporterPlugin extends BatchPlugin {
 
     /**
      * Execute exporting.
@@ -69,7 +69,7 @@ public interface ExporterPlugin extends SafiPlugin {
                 doExportProcessing(sources);
             } catch (PluginExecutionException | InterruptedException ex) {
                 throw ex;
-            } catch (Throwable ignore) {
+            } catch (RuntimeException ignore) {
                 // Note:
                 // Cause exception does not wrap because it may be contaminated by an exception class
                 // loaded with another class loader.
