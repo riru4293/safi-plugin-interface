@@ -35,7 +35,7 @@ import java.util.function.Consumer;
  * Plug-in interface for batch-processing.
  *
  * @author riru
- * @version 2.0.0
+ * @version 2.0.3
  * @since 2.0.0
  */
 public interface BatchPlugin extends SafiPlugin {
@@ -62,6 +62,7 @@ public interface BatchPlugin extends SafiPlugin {
      * Get the result reporter. The reporter is responsible for passing the received messages to the plugin caller
      * processing. The main use is expected to be to report warning messages and result messages.
      *
+     * @return the result reporter
      * @since 2.0.0
      */
     Consumer<String> getReporter();
@@ -147,6 +148,18 @@ public interface BatchPlugin extends SafiPlugin {
             }
 
             this.reporter = reporter;
+        }
+
+        /**
+         * Throw {@code InterruptedException} if current thread is interrupted.
+         *
+         * @throws InterruptedException if current thread is interrupted
+         * @since 2.0.3
+         */
+        protected final void throwIfInterrupted() throws InterruptedException {
+            if (Thread.currentThread().isInterrupted()) {
+                throw new InterruptedException();
+            }
         }
     }
 }
