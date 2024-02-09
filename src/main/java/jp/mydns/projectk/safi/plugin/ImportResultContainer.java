@@ -25,7 +25,6 @@
  */
 package jp.mydns.projectk.safi.plugin;
 
-import java.io.UncheckedIOException;
 import java.util.stream.Stream;
 
 /**
@@ -37,7 +36,7 @@ import java.util.stream.Stream;
  * </ul>
  *
  * @author riru
- * @version 1.0.0
+ * @version 2.0.4
  * @since 1.0.0
  */
 public interface ImportResultContainer {
@@ -49,31 +48,4 @@ public interface ImportResultContainer {
      * @since 1.0.0
      */
     Stream<ImportResult> stream();
-
-    /**
-     * Returns {@code true} if no content storing.
-     *
-     * @return {@code true} if no content storing
-     * @since 1.0.0
-     */
-    boolean isEmpty();
-
-    /**
-     * Returns storing number of content.
-     *
-     * @return storing number of content
-     * @since 1.0.0
-     */
-    int size();
-
-    /**
-     * Get a value associated with {@code index}.
-     *
-     * @param key content id
-     * @return a value associated with {@code index}
-     * @throws IndexOutOfBoundsException if {@code index} is out of range
-     * @throws UncheckedIOException if occurs I/O exception
-     * @since 1.0.0
-     */
-    ImportResult get(int index);
 }
